@@ -12,7 +12,7 @@ mongoose.model("Book",{
         type:String,
         require:false
     },
-    publishere:{
+    publisher:{
         type:String,
         require:false
     }

@@ -30,9 +30,43 @@ app.post('/book',(req,res)=>{
         } 
         
     });
-   
-    
 })
+app.get("/books",(req,res)=>{
+    Book.find().then((books)=>{
+        console.log(books);
+        //res.send(books);
+        res.json(books);
+    }).catch((err)=>{
+        iff(err)
+        throw err
+    })
+})
+app.get("/book/:id",(req,res)=>{
+    Book.findById(req.params.id).then((book)=>{
+        if(book){
+            res.json(book);
+        } else{
+           res.sendStatus(404); 
+        }
+       
+    }).catch((err)=>{
+        if(err)
+       // throw err
+       res.send(err)
+    });
+    //res.send(req.params.id+"-"+req.params.name);
+});
+
+app.delete("/book/:id",(req,res)=>{
+    Book.findOneAndRemove(req.params.id).then(()=>{
+     res.send("book deleted with id:");   
+    }).catch(err=>{
+    if(err)
+    console.log("err rrrrrrrr:"+err)
+    res.send("err rrrrrrrr:"+err);
+    });
+})
+
 app.listen('8081',()=>{
     console.log("up and running --- This is book service.")
 })
